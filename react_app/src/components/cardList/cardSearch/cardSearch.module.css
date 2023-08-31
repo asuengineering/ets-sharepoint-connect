@@ -1,0 +1,26 @@
+.container {
+    margin: 20px auto;
+    padding-bottom: 10px;
+    justify-self: flex-start;
+}
+
+.form_container {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.form_search {
+    width: 40%;
+}
+
+.filters {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    justify-content: flex-end;
+}
+
+.filter_item {
+    margin: auto 10px;
+}

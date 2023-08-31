@@ -1,0 +1,23 @@
+.link_div {
+    display: flex;
+    flex-direction: row;
+}
+
+.classroom_link_div {
+    display: flex;
+    flex-direction: row;
+}
+
+.body_div {
+    padding: 8px;
+}
+
+.classroom_link {
+    text-decoration: underline;
+    color: black;
+}
+
+.classroom_link:hover {
+    color: red;
+}
+
