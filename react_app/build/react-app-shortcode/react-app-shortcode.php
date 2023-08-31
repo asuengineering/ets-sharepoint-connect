@@ -1,15 +1,15 @@
 <?php
   /**
-   * Plugin Name: My Awesome Plugin
-   * Description: An awesome plugin that does many cool things
-   * Version: 1.2.3
-   * Author: Tom Lagier
+   * Plugin Name: React App Shortcode
+   * Description: Converts react app into a wordpress plugin which can be used as a shortcode
+   * Version: 1.2.5
+   * Author: ETS student worker
    */
 
   $manifest = [
 		'main' => [
-			'static/css/main.cb5c68e6.css',
-			'static/js/main.e2d43a64.js',
+			'static/css/main.a97a8c06.css',
+			'static/js/main.f94f9ef1.js',
 		],
 	];
 
@@ -19,12 +19,12 @@
     return '<div id="root"></div>';
   }
 
-  function register_my_awesome-plugin_entries() {
-		add_shortcode('my-awesome-plugin-main', 'create_main_app');
+  function register_react_app-shortcode_entries() {
+		add_shortcode('react-app-shortcode-main', 'create_main_app');
 		register_assets('main');
   }
 
-  add_action('init', 'register_my_awesome-plugin_entries');
+  add_action('init', 'register_react_app-shortcode_entries');
 
 /**
  * Loader utils
@@ -65,13 +65,13 @@ function register_assets($entrypoint) {
   $js = get_js_for_entrypoint($entrypoint);
 
   foreach ($js as &$script) {
-    wp_register_script($script, plugins_url('my-awesome-plugin/assets/' . $script));
+    wp_register_script($script, plugins_url('react-app-shortcode/assets/' . $script));
   }
 
   $css = get_css_for_entrypoint($entrypoint);
 
   foreach ($css as &$style) {
-    wp_register_style($style, plugins_url('my-awesome-plugin/assets/' . $style));
+    wp_register_style($style, plugins_url('react-app-shortcode/assets/' . $style));
   }
 }
 

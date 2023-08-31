@@ -3,8 +3,7 @@
  * Plugin Name: Power Automate Excel to MySQL DB
  * Description: Receives an Excel file from Power Automate, converts it to JSON, and saves it to the WordPress database.
  * Version: 1.0
- * Author: Kaushil Shah
- * Author URI: https://yourwebsite.com
+ * Author: ETS student worker
  */
 
 

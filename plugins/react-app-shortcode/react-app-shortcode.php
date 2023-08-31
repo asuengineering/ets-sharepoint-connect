@@ -1,9 +1,9 @@
 <?php
   /**
-   * Plugin Name: My Awesome Plugin
-   * Description: An awesome plugin that does many cool things
-   * Version: 1.2.3
-   * Author: Tom Lagier
+   * Plugin Name: React App Shortcode
+   * Description: Converts react app into a wordpress plugin which can be used as a shortcode
+   * Version: 1.2.5
+   * Author: ETS Student worker
    */
 
   $manifest = [
@@ -19,12 +19,12 @@
     return '<div style="max-width: fit-content; min-width: -webkit-fill-available;" id="root"></div>';
   }
 
-  function register_my_awesome_plugin_entries() {
-		add_shortcode('my-awesome-plugin-main', 'create_main_app');
+  function register_react_app_shortcode_plugin_entries() {
+		add_shortcode('react-app-shortcode-plugin-main', 'create_main_app');
 		register_assets('main');
   }
 
-  add_action('init', 'register_my_awesome_plugin_entries');
+  add_action('init', 'register_react_app_shortcode_plugin_entries');
 
 /**
  * Loader utils
