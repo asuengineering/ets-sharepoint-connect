@@ -9,7 +9,7 @@
   $manifest = [
 		'main' => [
 			'static/css/main.a97a8c06.css',
-			'static/js/main.f94f9ef1.js',
+			'static/js/main.735df63f.js',
 		],
 	];
 

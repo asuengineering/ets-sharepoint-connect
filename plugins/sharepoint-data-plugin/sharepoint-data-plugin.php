@@ -20,7 +20,7 @@ function power_automate_register_endpoint() {
     global $wpdb;
 
     // Define the table name
-    $table_name = $wpdb->prefix . 'my_custom_data_5';
+    $table_name = $wpdb->prefix . 'sharepoint_software_data';
 
     // Define the SQL query to create the table
     $sql = "CREATE OR REPLACE TABLE $table_name (
@@ -75,55 +75,78 @@ function power_automate_convert_excel_to_json( $request ) {
     }
 
     global $wpdb;
-    $table  = $wpdb->prefix . 'my_custom_data_5';
+    $table  = $wpdb->prefix . 'sharepoint_software_data';
     $delete = $wpdb->query("TRUNCATE TABLE $table");
     
     foreach ( $data as $d ) {
-        if($d["Expires?"] == "No" && $d["Obsolete? (Move to Older Versions column of Current Version)"] == "No"){
+        if($d["Expires?"] == "False" && $d["Obsolete? (Move to Older Versions column of Current Version)"] == "False"){
             insert_custom_data($d);
         }
         
     }
-    // // print(json_encode($data));
-    return array( 'status' => 'ok');
-    // return array( 'status' => 'ok'); 
+
+    $response_data = array(
+        'statusCode' => 200,
+        'headers' => array(
+            'Content-Type' => 'application/json; charset=utf-8',
+        ),
+        'body' => json_encode(array('message' => 'Request received successfully')),
+    );
+    return $response_data;
 }
 
 function insert_custom_data( $data ) {
     global $wpdb;
 
     // Define the table name
-    $table_name = $wpdb->prefix . 'my_custom_data_5';
+    $table_name = $wpdb->prefix . 'sharepoint_software_data';
     $wpdb->insert( $table_name, array(
-        "software" => $data["Software"] ?? "",
-        "current_version" => $data["Current Version(s)"] ?? "",
-        "older_version" => $data["Older Versions"] ?? "",
-        "support_contact" => $data["Support Contact"] ?? "",
-        "my_apps" => $data["Available on MyApps?"] ?? "",
-        "my_apps_access" => $data["MyApps Access"] ?? "",
-        "contact_lm" => $data["Contacts License Manager?"] ?? "",
-        "ets_lm" => $data["ETS Managed LM?"] ?? "",
-        "planned_labs" => $data["Planned for Labs"] ?? "",
-        "classroom" => $data["Classrooms/Labs"] ?? "",
-        "category" => $data["Category"] ?? "",
-        "exp_dt" => $data["Expiration Date"] ?? "",
-        "exp" => $data["Expires?"] ?? "",
-        "inf_web" => $data["Information Webpage"] ?? "",
-        "lic_r_to" => $data["License Restricted To"] ?? "",
-        "lic_restrictions" => $data["License Restrictions"] ?? "",
-        "software_description" => $data["Software Description"] ?? "",
-        "about" => $data["About"] ?? "",
-        "stakeholders" => $data["Stakeholders"] ?? "",
-        "available_sccm" => $data["Available on SCCM?"] ?? "",
-        "available_offcampus" => $data["Available Off Campus"] ?? "",
-        "available_jamf" => $data["Available on JAMF?"] ?? "",
-        "terms_of_use" => $data["Terms of Use"] ?? "",
-        "image_link" => $data["Image Links"] ?? "",
-        "fse_classroom" => $data["Available in FSE Cloud Classroom?"] ?? "",
-        "offcampus_comments" => $data["Available Off Campus comments"] ?? "",
-        "os_supported" => $data["OS Supported"] ?? "",
-        "additional_notes" => $data["Additional Notes"] ?? "",
-    ) );
+        "software" => get_string_value($data["Software"] ?? ""),
+        "current_version" => get_string_value($data["Current Version(s)"] ?? ""),
+        "older_version" => get_string_value($data["Older Versions"] ?? ""),
+        "support_contact" => get_string_value($data["Support Contact"] ?? ""),
+        "my_apps" => get_string_value($data["Available on MyApps?"] ?? ""),
+        "my_apps_access" => get_string_value($data["MyApps Access"] ?? ""),
+        "contact_lm" => get_string_value($data["Contacts License Manager?"] ?? ""),
+        "ets_lm" => get_string_value($data["ETS Managed LM?"] ?? ""),
+        "planned_labs" => get_string_value($data["Planned for Labs"] ?? ""),
+        "classroom" => get_string_value($data["Classrooms/Labs"] ?? ""),
+        "category" => get_string_value($data["Category"] ?? ""),
+        "exp_dt" => get_string_value($data["Expiration Date"] ?? ""),
+        "exp" => get_string_value($data["Expires?"] ?? ""),
+        "inf_web" => get_string_value($data["Information Webpage"] ?? ""),
+        "lic_r_to" => get_string_value($data["License Restricted To"] ?? ""),
+        "lic_restrictions" => get_string_value($data["License Restrictions"] ?? ""),
+        "software_description" => get_string_value($data["Software Description"] ?? ""),
+        "about" => get_string_value($data["About"] ?? ""),
+        "stakeholders" => get_string_value($data["Stakeholders"] ?? ""),
+        "available_sccm" => get_string_value($data["Available on SCCM?"] ?? ""),
+        "available_offcampus" => get_string_value($data["Available Off Campus"] ?? ""),
+        "available_jamf" => get_string_value($data["Available on JAMF?"] ?? ""),
+        "terms_of_use" => get_string_value($data["Terms of Use"] ?? ""),
+        "image_link" => get_string_value($data["Image Links"] ?? ""),
+        "fse_classroom" => get_string_value($data["Available in FSE Cloud Classroom?"] ?? ""),
+        "offcampus_comments" => get_string_value($data["Available Off Campus comments"] ?? ""),
+        "os_supported" => get_string_value($data["OS Supported"] ?? ""),
+        "additional_notes" => get_string_value($data["Additional Notes"] ?? ""),
+    ));
+}
+
+function get_string_value( $data ) {
+    if(is_null($data) || strlen($data) == 0){
+        return "";
+    }
+    $value = $data;
+    if(substr($data, 0, 1)=="["){
+        $valueJson = json_decode($data, true);
+        $valueArray = array();
+        foreach ($valueJson as $d){
+            array_push($valueArray, $d["Value"]);
+        }
+        $value_string = join(",", $valueArray);
+        $value = $value_string ?? "";
+    } 
+    return $value;
 }
 
 
@@ -141,7 +164,7 @@ function get_data( $request ) {
     global $wpdb;
 
     // Define the table name
-    $table_name = $wpdb->prefix . 'my_custom_data_5';
+    $table_name = $wpdb->prefix . 'sharepoint_software_data';
 
     // Get the data from the table
     $data = $wpdb->get_results( "SELECT * FROM $table_name" );
@@ -152,10 +175,3 @@ function get_data( $request ) {
     // Return the results as a JSON response
     return $results;
 }
-
-
-
-
-
-
-

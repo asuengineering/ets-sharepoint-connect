@@ -23,7 +23,7 @@ export default function CardList() {
 
 
   useEffect(() => {
-    axios.get('http://10.220.67.187/wordpress/index.php/wp-json/get-data/v1/data')
+    axios.get('https://5b2a-129-219-8-189.ngrok.io/blogs/wp-json/get-data/v1/data')
     .then(body => {
       let dataJson = JSON.parse(body.data);
       let filteredData = dataJson.filter(x => (x.my_apps === "Yes" || x.available_offcampus === "Yes" || x.fse_classroom !== "" || x.classroom !== "[]") && x.software);

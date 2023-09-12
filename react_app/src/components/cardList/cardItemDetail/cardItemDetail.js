@@ -4,7 +4,7 @@ import classes from './cardItemDetail.module.css'
 
 export default function CardItemDetail({item, show, handleClose}) {
     let classrooms = null;
-    if(item.classroom != "[]") {
+    if(item.classroom != "") {
         let classroom_array = item.classroom.trim().split(",");
         let classroom_obj = classroom_array.map((x,i) => {
             let a = x.toLowerCase().replace(/\s+/g, '-');
@@ -34,12 +34,8 @@ export default function CardItemDetail({item, show, handleClose}) {
 
     let online_softwares = [];
 
-    // let myAppsLink = null;
     if(item.my_apps == "Yes") {
         let softwareTitle = item.software.toLowerCase().replace(/\s+/g, '-');
-        // myAppsLink = (
-        //     <a className={classes.classroom_link} href={`https://myapps.asu.edu/app/${softwareTitle}`} target="_blank">ASU MyApps</a>
-        // )
 
         online_softwares.push({
             key: "myApps",
@@ -110,19 +106,13 @@ export default function CardItemDetail({item, show, handleClose}) {
     }
 
     let stakeholders = null;
-    if(item.stakeholders != "") {
-        let s = item.stakeholders;
-        s = s.substring(1, s.length - 1);
-        let a = s.split(",");
-        stakeholders = a.map(x => x.substring(1,x.length-1)).join(", "); 
+    if(item.stakeholders.length != 0) {
+        stakeholders = item.stakeholders;
     }
 
     let osSupported = null;
     if(item.os_supported != "") {
-        let s = item.os_supported;
-        s = s.substring(1, s.length - 1);
-        let a = s.split(",");
-        osSupported = a.map(x => x.substring(1,x.length-1)).join(", "); 
+        osSupported = item.os_supported;
     }
 
 
@@ -136,7 +126,7 @@ export default function CardItemDetail({item, show, handleClose}) {
                 {item.about ? (<div className={classes.body_div}> <b>About</b>: {item.about}</div>) : null}
                 {item.terms_of_use ? (<div className={classes.body_div}> <b>Terms Of use</b>: {item.terms_of_use}</div>) : null}
                 <div className={classes.body_div}> <b>Current Version</b>: {item.current_version}</div>
-                {item.category == "[]" ? null : <div className={classes.body_div}> <b>Category</b>: {item.category.split(",").join(", ")}</div>}
+                {item.category == "" ? null : <div className={classes.body_div}> <b>Category</b>: {item.category.split(",").join(", ")}</div>}
                 {/* {item.support_contact ? (<div className={classes.body_div}> <b>Support Contact</b>: {item.support_contact}</div>) : null} */}
                 {/* {myAppsLink ? (<div className={classes.body_div}> MyApps: {myAppsLink}</div>) : null} */}
                 {/* {item.fse_classroom !== "" ? (<div className={classes.body_div}> FSE Cloud Classroom: <a className={classes.classroom_link} href={`https://ets.engineering.asu.edu/fse-cloud-classroom/`} target="_blank">Please visit this Link</a></div>) : null} */}
